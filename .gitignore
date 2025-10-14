@@ -1,0 +1,258 @@
+# Unreal Engine 5 - Digital Twin Factory Project
+# .gitignore
+
+# ====================================
+# Visual Studio Files
+# ====================================
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+*.sdf
+*.opensdf
+*.unsuccessfulbuild
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.cachefile
+*.VC.db
+*.VC.opendb
+
+# ====================================
+# Rider / JetBrains
+# ====================================
+.idea/
+*.sln.iml
+
+# ====================================
+# Unreal Engine Build Files
+# ====================================
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# ====================================
+# Unreal Engine Project Files
+# ====================================
+# Keep .uproject but ignore generated files
+# *.uproject (주석: .uproject는 유지해야 함)
+
+# ====================================
+# Plugins
+# ====================================
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+
+# ====================================
+# Content Files
+# ====================================
+# Starter Content (용량이 크므로 제외)
+Content/StarterContent/
+
+# Marketplace Content (필요시 별도 관리)
+# Content/Marketplace/
+
+# ====================================
+# Config Files
+# ====================================
+# 사용자별 설정 파일 제외
+Saved/Config/Windows*/
+Saved/Config/WindowsEditor/
+Saved/Config/CrashReportClient/
+Saved/Logs/
+
+# ====================================
+# Crash Reports
+# ====================================
+Saved/Crashes/
+*.log
+*.dmp
+
+# ====================================
+# Shader Cache
+# ====================================
+Saved/ShaderDebugInfo/
+DerivedDataCache/
+
+# ====================================
+# Autosave and Backups
+# ====================================
+*_BuiltData.uasset
+Saved/Autosaves/
+Saved/Backup/
+
+# ====================================
+# C++ Intermediate Files
+# ====================================
+Source/*/obj/
+Source/*/bin/
+
+# ====================================
+# Generated Files
+# ====================================
+*.generated.h
+*.generated.cpp
+
+# ====================================
+# Package Files
+# ====================================
+Dist/
+Releases/
+WindowsNoEditor/
+LinuxNoEditor/
+MacNoEditor/
+Android/
+IOS/
+
+# ====================================
+# Development Files
+# ====================================
+.vscode/
+*.code-workspace
+
+# ====================================
+# macOS
+# ====================================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ====================================
+# Linux
+# ====================================
+*~
+.directory
+.Trash-*
+
+# ====================================
+# Windows
+# ====================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# ====================================
+# Source Control
+# ====================================
+.svn/
+.git/
+.hg/
+
+# ====================================
+# Documentation Build
+# ====================================
+docs/_build/
+Documentation/HTML/
+
+# ====================================
+# Temporary Files
+# ====================================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.*.swp
+
+# ====================================
+# Python (API Server)
+# ====================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+
+# ====================================
+# API Server specific
+# ====================================
+factory_api_server.log
+*.db
+*.sqlite
+
+# ====================================
+# Node.js (if used)
+# ====================================
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# ====================================
+# Specific to this project
+# ====================================
+# 커스텀 설정 파일 (개발자마다 다를 수 있음)
+Config/UserSettings.ini
+
+# 로컬 테스트 데이터
+TestData/Local/
+
+# 성능 프로파일링 결과
+*.utrace
+
+# ====================================
+# 유지해야 할 파일들 (예외)
+# ====================================
+# .uproject 파일은 반드시 커밋
+!*.uproject
+
+# Config 폴더의 기본 설정 파일들은 유지
+!Config/DefaultEngine.ini
+!Config/DefaultEditor.ini
+!Config/DefaultGame.ini
+!Config/DefaultInput.ini
+!Config/DefaultGameplayTags.ini
+
+# Build.cs 파일들은 유지
+!*.Build.cs
+!*.Target.cs
+
+# 문서 파일들 유지
+!README.md
+!*.md
+!Documentation/
+
+# Source 코드는 모두 유지
+!Source/
+!Source/**/*.h
+!Source/**/*.cpp
+!Source/**/*.cs
