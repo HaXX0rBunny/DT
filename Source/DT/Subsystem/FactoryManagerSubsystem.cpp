@@ -118,9 +118,58 @@ void UFactoryManagerSubsystem::ProcessProductionQueue()
 
 void UFactoryManagerSubsystem::AssignSpecToCell(const FGameplayTag& SpecTag)
 {
+	UWorld* World = GetWorld();
+	if (!World)
+		return;
+	
+	UGameInstance* GameInstance = GetWorld() ? GetWorld()->GetGameInstance() : nullptr;
+	if (!GameInstance)
+		return;
+
+	UDT_DataManager* DataManager = GameInstance->GetSubsystem<UDT_DataManager>();
+	if (!DataManager)
+		return;
+	
+	const FDTGameplayTags& GameplayTags = FDTGameplayTags::Get();
+	AFactoryCell* TargetCell = FindAvailableCall(GameplayTags.Type_Cell_Assemble_Wheel);
+	if (!TargetCell)
+		return;
+	
+	
+	FVector SpawnLocation = TargetCell->GetActorLocation() + FVector(0.0f, 0.0f, 100.0f);
+	FTransform SpawnTransform(FRotator::ZeroRotator, SpawnLocation);
+
+	ASpec* NewSpec = DataManager->CreateNewSpec(SpecTag, SpawnTransform);
+	if (!NewSpec)
+	{
+		if (UAbilitySystemComponent* CellASC = TargetCell->GetAbilitySystemComponent())
+		{
+			FGameplayEventData EventData;
+			EventData.Target = NewSpec;
+			CellASC->HandleGameplayEvent(GameplayTags.Trigger_Ability_Cell_AssignSpec, &EventData);
+		}
+	}
+
 }
 
 AFactoryCell* UFactoryManagerSubsystem::FindAvailableCall(const FGameplayTag& CellTypeTag)
 {
+	const FDTGameplayTags& GameplayTags = FDTGameplayTags::Get();
+
+	for (AFactoryCell* Cell : AvailableCells)
+	{
+		if (!Cell || !Cell->IsIdle())
+			continue;
+		UAbilitySystemComponent* ASC = Cell->GetAbilitySystemComponent();
+		if (!ASC)
+			continue;
+		
+		
+		if (ASC->HasMatchingGameplayTag(CellTypeTag) &&
+			ASC->HasMatchingGameplayTag(GameplayTags.State_Cell_Idle))
+		{
+			return Cell;
+		}
+	}
 	return nullptr;
 }

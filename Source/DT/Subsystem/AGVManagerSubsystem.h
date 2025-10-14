@@ -4,10 +4,29 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/WorldSubsystem.h"
+#include "GameplayTagContainer.h"
 #include "AGVManagerSubsystem.generated.h"
 
 class ADTAGV;
+class ASpec;
 
+USTRUCT()
+struct FAGVTask
+{
+    GENERATED_BODY()
+
+    UPROPERTY()
+    TObjectPtr<ADTAGV> AssignedAGV;
+
+    UPROPERTY()
+    TObjectPtr<ASpec> TargetSpec;
+
+    UPROPERTY()
+    FGameplayTag DestinationTag;
+
+    UPROPERTY()
+    bool bIsCompleted = false;
+};
 UCLASS()
 class DT_API UAGVManagerSubsystem : public UWorldSubsystem
 {
