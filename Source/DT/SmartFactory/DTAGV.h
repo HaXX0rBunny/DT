@@ -1,15 +1,61 @@
-
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "FactoryEntityBase.h"
+#include "GameplayTagContainer.h"
 #include "DTAGV.generated.h"
+
+class UAMR_Attributes;
+class UFloatingPawnMovement;
+class ASpec;
 
 UCLASS()
 class DT_API ADTAGV : public AFactoryEntityBase
 {
     GENERATED_BODY()
-    // AGV 관련 속성 세트(배터리, 적재량 등) 및 이동 컴포넌트 포함
-};
 
+public:
+    ADTAGV();
+
+    virtual void BeginPlay() override;
+
+    UFUNCTION(BlueprintCallable, Category = "AGV")
+    void AssignSpec(ASpec* NewSpec);
+
+    UFUNCTION(BlueprintCallable, Category = "AGV")
+    void ReleaseSpec();
+
+    UFUNCTION(BlueprintCallable, Category = "AGV")
+    bool HasSpec() const { return CurrentSpec != nullptr; }
+
+    UFUNCTION(BlueprintCallable, Category = "AGV")
+    ASpec* GetCurrentSpec() const { return CurrentSpec; }
+
+    UFUNCTION(BlueprintCallable, Category = "AGV")
+    void MoveToDestination(const FGameplayTag& DestinationTag);
+
+    UFUNCTION(BlueprintCallable, Category = "AGV")
+    bool IsIdle() const;
+
+protected:
+    UPROPERTY(Transient)
+    TObjectPtr<UAMR_Attributes> AMRAttributes;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
+    TObjectPtr<UFloatingPawnMovement> MovementComponent;
+
+    UPROPERTY()
+    TObjectPtr<ASpec> CurrentSpec;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AGV")
+    FName SpecAttachSocketName = TEXT("SpecSocket");
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AGV")
+    float MovementSpeed = 300.0f;
+
+private:
+    void OnMovementComplete();
+
+    FTimerHandle MovementTimerHandle;
+    FVector TargetLocation;
+};
