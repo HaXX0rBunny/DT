@@ -19,7 +19,7 @@ class UDataTable;
 /**
  * 
  */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMonitoredAttributeChanged, FString, ActorID, float, NewValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMonitoredAttributeChanged,const FString&, ActorID, float, NewValue);
 
 UCLASS(Config = Game)
 class DT_API UDT_DataManager : public UGameInstanceSubsystem

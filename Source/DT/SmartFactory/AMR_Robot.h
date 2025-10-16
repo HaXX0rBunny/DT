@@ -17,7 +17,7 @@ class DT_API AAMR_Robot : public AInteractiveActorBase
     GENERATED_BODY()
 public:
     AAMR_Robot();
-
+    virtual void BeginPlay() override;
 protected:
     UPROPERTY(Transient)
     TObjectPtr<UAMR_Attributes> AMRAttributes;

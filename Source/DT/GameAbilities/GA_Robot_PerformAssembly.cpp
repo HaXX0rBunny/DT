@@ -2,6 +2,11 @@
 
 
 #include "GA_Robot_PerformAssembly.h"
+#include "SmartFactory/DTCollaborativeRobot.h"
+#include "SmartFactory/Spec.h"
+#include "AbilitySystemComponent.h"
+#include "Tags/DTGameplayTags.h"
+
 
 UGA_Robot_PerformAssembly::UGA_Robot_PerformAssembly()
 {
@@ -39,10 +44,29 @@ void UGA_Robot_PerformAssembly::ActivateAbility(
 	}
 }
 
-void UGA_Robot_PerformAssembly::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
+void UGA_Robot_PerformAssembly::EndAbility(
+	const FGameplayAbilitySpecHandle Handle,
+	const FGameplayAbilityActorInfo* ActorInfo,
+	const FGameplayAbilityActivationInfo ActivationInfo,
+	bool bReplicateEndAbility,
+	bool bWasCancelled)
 {
+	if (UAbilitySystemComponent* ASC = ActorInfo->AbilitySystemComponent.Get())
+	{
+		const FDTGameplayTags& GameplayTags = FDTGameplayTags::Get();
+
+		if (TaskCompleteHandle.IsValid())
+		{
+			ASC->GenericGameplayEventCallbacks.FindOrAdd(GameplayTags.Event_Task_Complete)
+				.Remove(TaskCompleteHandle);
+			TaskCompleteHandle.Reset();
+		}
+	}
+
+	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
 
 void UGA_Robot_PerformAssembly::OnAssemblyComplete(FGameplayEventData Payload)
 {
+	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, false);
 }

@@ -14,6 +14,7 @@ class DT_API ASpec : public AInteractiveActorBase
 
 public:
     ASpec();
+    virtual void BeginPlay() override;
     void InitializeSpec(UDTSpecData* SpecData);
 
 protected:

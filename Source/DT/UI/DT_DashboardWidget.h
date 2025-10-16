@@ -19,10 +19,10 @@ class DT_API UDT_DashboardWidget : public UUserWidget
 
 public:
     UFUNCTION(BlueprintImplementableEvent, Category = "UI Update")
-    void UpdateProductionProgress(FString CellID, float NewProgress);
+    void UpdateProductionProgress(const FString& CellID, float NewProgress);
 
     UFUNCTION(BlueprintImplementableEvent, Category = "UI Update")
-    void UpdateBatteryLevel(FString RobotID, float NewLevel);
+    void UpdateBatteryLevel(const FString& RobotID, float NewLevel);
 
 protected:
     virtual void NativeConstruct() override;
