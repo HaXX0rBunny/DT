@@ -27,10 +27,10 @@ public:
 protected:
     virtual void NativeConstruct() override;
 
-private:
-    UPROPERTY(meta = (BindWidgetOptional))
+
+    UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
     TObjectPtr<UTextBlock> MonitoredCellIDText;
 
-    UPROPERTY(meta = (BindWidgetOptional))
+    UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
     TObjectPtr<UProgressBar> ProductionProgressBar;
 };

@@ -7,6 +7,7 @@
 
 class UAMR_Attributes;
 class UFloatingPawnMovement;
+//class UAGVNavigationComponent;
 class ASpec;
 
 UCLASS()
@@ -31,11 +32,14 @@ public:
     UFUNCTION(BlueprintCallable, Category = "AGV")
     ASpec* GetCurrentSpec() const { return CurrentSpec; }
 
-    UFUNCTION(BlueprintCallable, Category = "AGV")
-    void MoveToDestination(const FGameplayTag& DestinationTag);
+    //UFUNCTION(BlueprintCallable, Category = "AGV")
+    //bool MoveToDestination(const FGameplayTag& DestinationTag);
 
     UFUNCTION(BlueprintCallable, Category = "AGV")
     bool IsIdle() const;
+
+    //UFUNCTION(BlueprintCallable, Category = "AGV")
+    //UAGVNavigationComponent* GetNavigationComponent() const { return NavigationComponent; }
 
 protected:
     UPROPERTY(Transient)
@@ -43,6 +47,9 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
     TObjectPtr<UFloatingPawnMovement> MovementComponent;
+
+    //UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Navigation")
+    //TObjectPtr<UAGVNavigationComponent> NavigationComponent;
 
     UPROPERTY()
     TObjectPtr<ASpec> CurrentSpec;
@@ -54,8 +61,6 @@ protected:
     float MovementSpeed = 300.0f;
 
 private:
-    void OnMovementComplete();
-
-    FTimerHandle MovementTimerHandle;
-    FVector TargetLocation;
+    UFUNCTION()
+    void OnNavigationComplete();
 };

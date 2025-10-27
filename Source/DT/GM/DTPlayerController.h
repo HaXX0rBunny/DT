@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-
+#include "UI/DT_DashboardWidget.h"
 #include "DTPlayerController.generated.h"
 class UDT_DashboardWidget;
 /**
@@ -19,11 +19,11 @@ class DT_API ADTPlayerController : public APlayerController
 protected:
 	virtual void BeginPlay() override;
 
-private:
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<UDT_DashboardWidget> DashboardWidgetClass;
 
 	UPROPERTY()
 	TObjectPtr<UDT_DashboardWidget> DashboardWidgetInstance;
+private:
 	
 };
