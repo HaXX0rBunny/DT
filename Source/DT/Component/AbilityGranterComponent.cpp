@@ -1,7 +1,7 @@
 #include "AbilityGranterComponent.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
-#include "GameplayAbility.h"
+#include "Abilities/GameplayAbility.h"
 
 UAbilityGranterComponent::UAbilityGranterComponent()
 {

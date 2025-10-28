@@ -16,11 +16,9 @@ UGE_BatteryDrain::UGE_BatteryDrain()
     ModifierInfo.ModifierOp = EGameplayModOp::Additive;
 
     // Magnitude 설정 - 초당 0.5% 감소
-    FGameplayEffectModifierMagnitude Magnitude;
-    FScalableFloat ScalableValue;
-    ScalableValue.Value = -0.5f;
-    Magnitude.SetScalableFloatMagnitude(ScalableValue);
-    ModifierInfo.ModifierMagnitude = Magnitude;
+
+    FScalableFloat ScalableValue(- 0.5f);
+    ModifierInfo.ModifierMagnitude = FGameplayEffectModifierMagnitude(ScalableValue);
 
     Modifiers.Add(ModifierInfo);
 

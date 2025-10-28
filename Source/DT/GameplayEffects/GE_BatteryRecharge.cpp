@@ -16,11 +16,9 @@ UGE_BatteryRecharge::UGE_BatteryRecharge()
     ModifierInfo.ModifierOp = EGameplayModOp::Additive;
     
     // Magnitude 설정 - 초당 2% 회복
-    FGameplayEffectModifierMagnitude Magnitude;
-    FScalableFloat ScalableValue;
-    ScalableValue.Value = 1.0f;
-    Magnitude.SetScalableFloatMagnitude(ScalableValue);
-    ModifierInfo.ModifierMagnitude = Magnitude;
+    FScalableFloat ScalableValue(1.0f);
+    ModifierInfo.ModifierMagnitude = FGameplayEffectModifierMagnitude(ScalableValue);
+
     
     Modifiers.Add(ModifierInfo);
 

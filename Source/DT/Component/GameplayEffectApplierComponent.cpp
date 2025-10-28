@@ -134,6 +134,9 @@ void UGameplayEffectApplierComponent::SetupTagBasedEffects()
     {
         return;
     }
+    RemoveTagDelegates();
+    //맵 초기화
+    TagToEffectMap.Empty();
 
     for (const FEffectApplicationData& EffectData : EffectsToApply)
     {
@@ -142,23 +145,58 @@ void UGameplayEffectApplierComponent::SetupTagBasedEffects()
         {
             if (EffectData.TriggerTag.IsValid())
             {
-                FDelegateHandle Handle = ASC->RegisterGameplayTagEvent(EffectData.TriggerTag)
-                    .AddUObject(this, &UGameplayEffectApplierComponent::OnTagChanged, EffectData);
+                // TriggerTag를 키로 EffectData를 맵에 저장합니다.
+                TagToEffectMap.Add(EffectData.TriggerTag, EffectData);
 
-                TagDelegateHandles.Add(EffectData.TriggerTag, Handle);
+                // addUObject를 사용해 새 콜백 함수를 바인딩합니다.
+                //    이제 시그니처가 일치하므로 E0304 오류가 발생하지 않습니다.
+                ASC->RegisterGameplayTagEvent(EffectData.TriggerTag)
+                    .AddUObject(this, &UGameplayEffectApplierComponent::OnTagChanged);
             }
         }
     }
 }
 
-void UGameplayEffectApplierComponent::OnTagChanged(const FGameplayTag Tag, int32 NewCount, const FEffectApplicationData& EffectData)
+void UGameplayEffectApplierComponent::RemoveTagDelegates()
 {
+    UAbilitySystemComponent* ASC = GetAbilitySystemComponent();
+
+    if (ASC)
+    {
+ 
+        for (auto& Pair : TagDelegateHandles)
+        {
+            if (Pair.Key.IsValid() && Pair.Value.IsValid())
+            {
+                ASC->RegisterGameplayTagEvent(Pair.Key).Remove(Pair.Value);
+            }
+        }
+    }
+
+
+
+    TagDelegateHandles.Empty();
+    TagToEffectMap.Empty();
+}
+
+
+void UGameplayEffectApplierComponent::OnTagChanged(const FGameplayTag Tag, int32 NewCount)
+{
+
+    const FEffectApplicationData* EffectData = TagToEffectMap.Find(Tag);
+
+
+    if (!EffectData)
+    {
+        return;
+    }
+
     const bool bTagAdded = NewCount > 0;
     const bool bTagRemoved = NewCount == 0;
 
-    if ((bTagAdded && EffectData.ApplicationTiming == EEffectApplicationTiming::OnTagAdded) ||
-        (bTagRemoved && EffectData.ApplicationTiming == EEffectApplicationTiming::OnTagRemoved))
+    if ((bTagAdded && EffectData->ApplicationTiming == EEffectApplicationTiming::OnTagAdded) ||
+        (bTagRemoved && EffectData->ApplicationTiming == EEffectApplicationTiming::OnTagRemoved))
     {
-        ApplyEffect(EffectData.EffectClass, EffectData.EffectLevel);
+        ApplyEffect(EffectData->EffectClass, EffectData->EffectLevel);
     }
 }

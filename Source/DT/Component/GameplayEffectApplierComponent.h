@@ -66,16 +66,19 @@ public:
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect Applier")
     TArray<FEffectApplicationData> EffectsToApply;
-
+    UPROPERTY()
+    TMap<FGameplayTag, FEffectApplicationData> TagToEffectMap;
+    TMap<FGameplayTag, FDelegateHandle> TagDelegateHandles;
 private:
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> CachedASC;
 
     TArray<FActiveGameplayEffectHandle> ActiveEffectHandles;
-    TMap<FGameplayTag, FDelegateHandle> TagDelegateHandles;
+ 
 
     UAbilitySystemComponent* GetAbilitySystemComponent();
     void ApplyEffectsByTiming(EEffectApplicationTiming Timing);
     void SetupTagBasedEffects();
-    void OnTagChanged(const FGameplayTag Tag, int32 NewCount, const FEffectApplicationData& EffectData);
+    void RemoveTagDelegates();
+    void OnTagChanged(const FGameplayTag Tag, int32 NewCount);
 };

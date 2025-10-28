@@ -1,7 +1,8 @@
+
 #include "SmartFactory/DTAGV.h"
 #include "GASCore/AMR_Attributes.h"
 #include "SmartFactory/Spec.h"
-//#include "Components/AGVNavigationComponent.h"
+#include "Component/AGVNavigationComponent.h"
 #include "AbilitySystemComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "Tags/DTGameplayTags.h"
@@ -27,7 +28,7 @@ void ADTAGV::BeginPlay()
 
     if (AbilitySystemComponent && AMRAttributes)
     {
-       // AbilitySystemComponent->AddAttributeSetSubobject(AMRAttributes);
+        AbilitySystemComponent->AddAttributeSetSubobject(AMRAttributes.Get());
         AbilitySystemComponent->InitStats(UAMR_Attributes::StaticClass(), nullptr);
         AbilitySystemComponent->SetNumericAttributeBase(UAMR_Attributes::GetMaxBatteryLevelAttribute(), 100.0f);
         AbilitySystemComponent->SetNumericAttributeBase(UAMR_Attributes::GetBatteryLevelAttribute(), 100.0f);
@@ -41,10 +42,10 @@ void ADTAGV::BeginPlay()
         AbilitySystemComponent->AddLooseGameplayTag(GameplayTags.State_AGV_Idle);
     }
 
-    //if (NavigationComponent)
-    //{
-    //   // NavigationComponent->OnNavigationComplete.AddDynamic(this, &ADTAGV::OnNavigationComplete);
-    //}
+    if (NavigationComponent)
+    {
+        NavigationComponent->OnNavigationComplete.AddDynamic(this, &ADTAGV::OnNavigationComplete);
+    }
 }
 
 void ADTAGV::AssignSpec(ASpec* NewSpec)
@@ -83,23 +84,23 @@ void ADTAGV::ReleaseSpec()
         ASC->AddLooseGameplayTag(GameplayTags.State_Idle);
     }
 }
-//
-//bool ADTAGV::MoveToDestination(const FGameplayTag& DestinationTag)
-//{
-//    if (!NavigationComponent)
-//    {
-//        return false;
-//    }
-//
-//    if (UAbilitySystemComponent* ASC = GetAbilitySystemComponent())
-//    {
-//        const FDTGameplayTags& GameplayTags = FDTGameplayTags::Get();
-//        ASC->AddLooseGameplayTag(GameplayTags.State_AGV_MoveToCell);
-//        ASC->RemoveLooseGameplayTag(GameplayTags.State_AGV_Idle);
-//    }
-//
-//    return NavigationComponent->NavigateToDestination(DestinationTag);
-//}
+
+bool ADTAGV::MoveToDestination(const FGameplayTag& DestinationTag)
+{
+    if (!NavigationComponent)
+    {
+        return false;
+    }
+
+    if (UAbilitySystemComponent* ASC = GetAbilitySystemComponent())
+    {
+        const FDTGameplayTags& GameplayTags = FDTGameplayTags::Get();
+        ASC->AddLooseGameplayTag(GameplayTags.State_AGV_MoveToCell);
+        ASC->RemoveLooseGameplayTag(GameplayTags.State_AGV_Idle);
+    }
+
+    return NavigationComponent->NavigateToDestination(DestinationTag);
+}
 
 bool ADTAGV::IsIdle() const
 {

@@ -2,17 +2,17 @@
 
 #include "CoreMinimal.h"
 #include "GameplayEffect.h"
-#include "GE_BatteryRecharge.generated.h"
+#include "GE_WearAccumulation.generated.h"
 
 /**
- * AGV 및 AMR 로봇의 배터리 충전 GameplayEffect
- * 충전소에서 주기적으로 배터리를 회복시킵니다
+ * 설비의 마모도 누적 GameplayEffect
+ * 작업 수행 중 주기적으로 마모도를 증가시킵니다
  */
 UCLASS()
-class DT_API UGE_BatteryRecharge : public UGameplayEffect
+class DT_API UGE_WearAccumulation : public UGameplayEffect
 {
     GENERATED_BODY()
 
 public:
-    UGE_BatteryRecharge();
+    UGE_WearAccumulation();
 };

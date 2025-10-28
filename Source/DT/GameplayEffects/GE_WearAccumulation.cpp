@@ -1,32 +1,42 @@
-#include "GE_BatteryRecharge.h"
-#include "GASCore/AMR_Attributes.h"
+#include "GE_WearAccumulation.h"
+#include "SmartFactory/FactoryAttributeSet.h"
 
-UGE_BatteryRecharge::UGE_BatteryRecharge()
+UGE_WearAccumulation::UGE_WearAccumulation()
 {
-    // Effect 기본 설정
+
     DurationPolicy = EGameplayEffectDurationType::Infinite;
-    
-    // Period 설정 (0.5초마다 실행)
-    Period.Value = 0.5f;
+
+ 
+    Period.Value = 5.0f;
     bExecutePeriodicEffectOnApplication = true;
 
-    // Modifiers 추가 - 배터리 레벨 증가
-    FGameplayModifierInfo ModifierInfo;
-    ModifierInfo.Attribute = UAMR_Attributes::GetBatteryLevelAttribute();
-    ModifierInfo.ModifierOp = EGameplayModOp::Additive;
-    
-    // Magnitude 설정 - 초당 2% 회복
-    FGameplayEffectModifierMagnitude Magnitude;
-    FScalableFloat ScalableValue;
-    ScalableValue.Value = 1.0f;
-    Magnitude.SetScalableFloatMagnitude(ScalableValue);
-    ModifierInfo.ModifierMagnitude = Magnitude;
-    
-    Modifiers.Add(ModifierInfo);
+    {
+        FGameplayModifierInfo ModifierInfo;
+        ModifierInfo.Attribute = UFactoryAttributeSet::GetWearLevelAttribute();
+        ModifierInfo.ModifierOp = EGameplayModOp::Additive;
 
-    // 스택 설정
+        FGameplayEffectModifierMagnitude Magnitude;
+   
+        FScalableFloat ScalableValue(0.01f); // 5초당 1% 증가
+        ModifierInfo.ModifierMagnitude = FGameplayEffectModifierMagnitude(ScalableValue);
+
+
+        Modifiers.Add(ModifierInfo);
+    }
+
+    {
+        FGameplayModifierInfo ModifierInfo;
+        ModifierInfo.Attribute = UFactoryAttributeSet::GetCycleCountAttribute();
+        ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+
+
+        FScalableFloat ScalableValue(1.0f); // 5초당 1 증가
+        ModifierInfo.ModifierMagnitude = FGameplayEffectModifierMagnitude(ScalableValue);
+
+
+        Modifiers.Add(ModifierInfo);
+    }
+
+
     StackingType = EGameplayEffectStackingType::None;
-
-    // 배터리가 최대치를 넘지 않도록 Clamping
-    // 이는 블루프린트 또는 AttributeSet의 PreAttributeChange에서 처리
 }
