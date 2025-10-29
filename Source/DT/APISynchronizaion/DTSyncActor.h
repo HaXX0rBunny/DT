@@ -2,8 +2,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Http.h"
 #include "DTSyncActor.generated.h"
+
+class IHttpRequest;
+class IHttpResponse;
+typedef TSharedPtr<IHttpRequest, ESPMode::ThreadSafe> FHttpRequestPtr;
+typedef TSharedPtr<IHttpResponse, ESPMode::ThreadSafe> FHttpResponsePtr;
 
 USTRUCT(BlueprintType)
 struct FFactorySyncData

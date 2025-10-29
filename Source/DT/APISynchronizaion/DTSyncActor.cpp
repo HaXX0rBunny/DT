@@ -1,4 +1,6 @@
 #include "APISynchronizaion/DTSyncActor.h"
+#include "Http.h"
+#include "HttpModule.h"
 #include "Json.h"
 #include "JsonUtilities.h"
 

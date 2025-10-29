@@ -1,6 +1,5 @@
 #pragma once
 
-#pragma once
 
 #include "CoreMinimal.h"
 #include "SmartFactory/FactoryEntityBase.h"  

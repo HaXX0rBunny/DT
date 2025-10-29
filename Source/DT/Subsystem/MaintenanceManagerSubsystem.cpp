@@ -3,7 +3,7 @@
 #include "Subsystem/MaintenanceManagerSubsystem.h"
 #include "SmartFactory/FactoryEntityBase.h"
 #include "SmartFactory/FactoryAttributeSet.h"
-//#include "AbilitySystemComponent.h"
+#include "AbilitySystemComponent.h"
 #include "GameplayEffectExtension.h"
 #include "Tags/DTGameplayTags.h"
 #include "EngineUtils.h"

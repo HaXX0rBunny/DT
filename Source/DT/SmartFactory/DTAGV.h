@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FactoryEntityBase.h"
+#include "SmartFactory/FactoryEntityBase.h"
 #include "GameplayTagContainer.h"
 #include "DTAGV.generated.h"
 

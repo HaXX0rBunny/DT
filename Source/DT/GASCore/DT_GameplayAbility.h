@@ -8,4 +8,6 @@ UCLASS()
 class DT_API UDT_GameplayAbility : public UGameplayAbility
 {
     GENERATED_BODY()
+public:
+    UDT_GameplayAbility();
 };

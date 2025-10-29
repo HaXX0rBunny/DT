@@ -1,2 +1,8 @@
-#include "DT_GameplayAbility.h"
-// 현재 비어 있음
+#include "GASCore/DT_GameplayAbility.h"
+
+UDT_GameplayAbility::UDT_GameplayAbility()
+{
+    InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
+    NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::LocalPredicted;
+    bRetriggerInstancedAbility = false;
+}

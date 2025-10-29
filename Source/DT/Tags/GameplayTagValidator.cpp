@@ -7,7 +7,11 @@ void UGameplayTagValidator::Initialize(FSubsystemCollectionBase& Collection)
     Super::Initialize(Collection);
 
     UE_LOG(LogTemp, Log, TEXT("=== GameplayTag Validator Initializing ==="));
-
+    if (!FModuleManager::Get().IsModuleLoaded("DT"))
+    {
+        UE_LOG(LogTemp, Error, TEXT("DT Module not loaded! Tags will not be initialized!"));
+        return;
+    }
     bool bAllTagsValid = ValidateAllTags();
 
     if (bAllTagsValid)
