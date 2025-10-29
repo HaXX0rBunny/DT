@@ -16,4 +16,4 @@ void FDTModule::ShutdownModule()
 {
     UE_LOG(LogTemp, Log, TEXT("Digital Twin Module Shutdown"));
 }
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, DT, "DT" );
+IMPLEMENT_PRIMARY_GAME_MODULE(FDTModule, DT, "DT");
